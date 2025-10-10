@@ -2,9 +2,27 @@
 
 Desafio Técnico desenvolvido por Renato Mendes.
 
+## Sumário
+
+- [Descrição](#descrição)
+- [Tecnologias Utilizadas](#tecnologias-utilizadas)
+- [Como Executar](#como-executar)
+    - [Execução Local](#execução-local)
+    - [Execução com Docker](#execução-com-docker)
+- [Exemplos de Uso da API](#exemplos-de-uso-da-api)
+- [Estrutura do Projeto](#estrutura-do-projeto)
+- [Arquitetura da Solução](#arquitetura-da-solução)
+- [Fluxo de Funcionamento](#fluxo-de-funcionamento)
+- [Testes](#testes)
+- [Autor](#autor)
+
+---
+
 ## Descrição
 
-O **WishlistRms** é uma aplicação Java desenvolvida com Spring Boot, que tem como objetivo gerenciar listas de desejos (wishlists). O projeto utiliza MongoDB como banco de dados e segue boas práticas de desenvolvimento, incluindo testes automatizados com JUnit e Cucumber.
+O **WishlistRms** é uma aplicação Java com Spring Boot para gerenciamento de listas de desejos (wishlists) de clientes. Utiliza MongoDB como banco de dados e segue boas práticas de desenvolvimento, incluindo testes automatizados (JUnit, Cucumber) e cobertura de código com Jacoco.
+
+---
 
 ## Tecnologias Utilizadas
 
@@ -16,54 +34,176 @@ O **WishlistRms** é uma aplicação Java desenvolvida com Spring Boot, que tem 
 - **Cucumber**
 - **Jacoco** (cobertura de testes)
 
-## Pré-requisitos
+---
 
-- Java 21 instalado
-- Maven 3.x instalado
-- MongoDB em execução
+## Como Executar
 
-## Como executar o projeto
+### Execução Local
 
-. Clone o repositório:
-```
+. **Clone o repositório:**
+   ```bash
    git clone https://github.com/RenatoMendes-RM/WishlistRms.git
    cd WishlistRms
-```
-Para executar na IDE IntelliJ é necessário;
+   ```
 
-- Criar variável de ambiente no painel de configuração da IDE
-```
-   MONGODB_URI=mongodb://localhost:27018/wishlists
-```
-- Subir mongoDB no Docker para executar junto com a IDE IntelliJ:
-```  
-   docker run -d --name mongo-wishlist-local -p 27018:27017 mongo:latest
-```
+. **Configure a variável de ambiente do MongoDB:**
 
-Para configurar esta variável de ambiente no console:
-- Windows (prompt de comando CMD)
-```
+- Windows (CMD):
+  ```cmd
   set SPRING_DATA_MONGODB_URI=mongodb://localhost:27018/wishlists
-```
-
-- Git Bash (e em terminais Unix/Linux em geral):
-```
+  ```
+- Git Bash/Linux/Mac:
+  ```bash
   export SPRING_DATA_MONGODB_URI="mongodb://localhost:27018/wishlists"
-```
+  ```
 
-• Para executar aplicação com Docker:
-  Gere o jar da sua aplicação
-```
+. **Suba o MongoDB com Docker:**
+   ```bash
+   docker run -d --name mongo-wishlist-local -p 27018:27017 mongo:latest
+   ```
+
+. **Execute a aplicação:**
+   ```bash
+   mvn clean install
+   mvn spring-boot:run
+   ```
+Acesse em: [http://localhost:8080](http://localhost:8080)
+
+### Execução com Docker
+
+. Gere o jar da aplicação:
+   ```bash
    mvn clean package
-```
+   ```
 
-• Suba tudo com Docker Compose
-```
+. Suba tudo com Docker Compose:
+   ```bash
    docker-compose up --build
-```
+   ```
 
-• Para encerrar a execução no container docker:
-```
+. Para encerrar:
+   ```bash
    docker-compose down
+   ```
+
+---
+
+## Exemplos de Uso da API
+
+| Método | Endpoint                                      | Descrição                        |
+|--------|-----------------------------------------------|----------------------------------|
+| POST   | `/api/wishlists/{customerId}/products/{productId}` | Adiciona produto à wishlist      |
+| DELETE | `/api/wishlists/{customerId}/products/{productId}` | Remove produto da wishlist       |
+| GET    | `/api/wishlists/{customerId}/products`        | Lista todos os produtos          |
+| GET    | `/api/wishlists/{customerId}/products/{productId}` | Verifica se produto está na lista|
+
+**Exemplo de requisição para adicionar produto:**
+```bash
+curl -X POST http://localhost:8080/api/wishlists/cliente1/products/produto123
 ```
 
+---
+
+## Estrutura do Projeto
+
+
+
+```
+src/
+├── main/
+│ ├── java/
+│ │ └── org/projeto/
+│ │ ├── WishListApp.java
+│ │ ├── application/services/
+│ │ ├── domain/entities/
+│ │ ├── domain/repositories/
+│ │ ├── infrastructure/persistence/
+│ │ ├── infrastructure/repositories/
+│ │ └── interfaces/api/controllers/
+│ └── resources/
+└── test/
+└── java/
+└── org/projeto/wishlistrms/bdd/
+```
+
+## Arquitetura da Solução
+
+O projeto segue uma arquitetura inspirada na Clean Architecture, separando responsabilidades em camadas:
+
+mermaid
+```
+flowchart TD
+  subgraph Interface/API
+    A[WishlistController]
+  end
+  subgraph Application
+    B[WishlistService]
+  end
+  subgraph Domain
+    C[Wishlist Entidade]
+  end
+  subgraph Infrastructure
+    D[WishlistRepositoryMongoImpl]
+    E[WishlistDocument]
+    F[MongoDB]
+  end
+
+  A --> B
+  B --> C
+  B --> D
+  D --> E
+  E --> F
+```
+![img_2.png](img_2.png)
+
+## Fluxo de Funcionamento
+
+Exemplo: Adicionar produto à wishlist
+
+
+```
+sequenceDiagram
+  participant Cliente
+  participant Controller as WishlistController
+  participant Service as WishlistService
+  participant Repository as WishlistRepositoryMongoImpl
+  participant MongoDB
+
+  Cliente->>Controller: POST /wishlists/{customerId}/products/{productId}
+  Controller->>Service: addProduct(customerId, productId)
+  Service->>Repository: save(wishlist)
+  Repository->>MongoDB: Persistir documento
+  MongoDB-->>Repository: Confirmação de persistência
+  Repository-->>Service: Wishlist salva
+  Service-->>Controller: Wishlist criada/atualizada
+  Controller-->>Cliente: HTTP 201 Created/200 OK
+```
+
+
+![img_3.png](img_3.png)
+
+
+## Testes
+
+Para rodar os testes automatizados (JUnit e Cucumber):
+
+```
+   mvn test
+```
+Relatórios de cobertura Jacoco em target/site/jacoco/index.html.
+
+
+
+## Autor
+
+Renato Mendes  
+<a href="https://www.linkedin.com/in/engrenatomendes/" target="_blank">
+<img src="https://img.shields.io/badge/-LinkedIn-blue?style=flat-square&logo=linkedin" alt="LinkedIn">
+</a>
+
+
+
+Desenvolvido como parte de um desafio técnico.
+
+
+.
