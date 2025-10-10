@@ -116,6 +116,11 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <excludes>
+                        <exclude>org/projeto/WishListApp.class</exclude>
+                    </excludes>
+                </configuration>
             </plugin>
 
         </plugins>
