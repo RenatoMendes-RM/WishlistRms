@@ -39,12 +39,12 @@ class WishlistServiceTest {
     @Test
     void addProduct_shouldThrow_whenWishlistLimitReached() {
         String customerId = "c1";
-        Set<String> products = new HashSet<>(Arrays.asList("p1", "p2", "p3"));
+        Set<String> products = new HashSet<>(Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"));
         Wishlist wishlist = new Wishlist("w1", customerId, products);
         when(wishlistRepository.findByCustomerId(customerId)).thenReturn(Optional.of(wishlist));
 
         BusinessException ex = assertThrows(BusinessException.class, () ->
-                wishlistService.addProduct(customerId, "p4")
+                wishlistService.addProduct(customerId, "21")
         );
         assertEquals("Wishlist limit reached", ex.getMessage());
     }

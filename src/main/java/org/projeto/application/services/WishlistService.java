@@ -13,7 +13,7 @@ import java.util.Set;
 
 @Service
 public class WishlistService {
-    private static final int MAX_PRODUCTS = 3;
+    private static final int MAX_PRODUCTS = 20;
 
     private final WishlistRepository wishlistRepository;
 

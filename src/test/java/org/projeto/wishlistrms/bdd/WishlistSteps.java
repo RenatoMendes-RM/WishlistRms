@@ -1,5 +1,6 @@
 package org.projeto.wishlistrms.bdd;
 
+import io.cucumber.java.en.And;
 import io.cucumber.java.pt.*;
 import org.projeto.application.services.WishlistService;
 import org.projeto.domain.repositories.WishlistRepository;
@@ -54,4 +55,8 @@ public class WishlistSteps {
         assertFalse(wishlistService.containsProduct(customerId, produto));
     }
 
+    @And("a wishlist do cliente deve conter {int} produtos")
+    public void aWishlistDoClienteDeveConterProdutos(int quantidade) {
+        assertEquals(quantidade, wishlistService.getAllProducts(customerId).size());
+    }
 }
