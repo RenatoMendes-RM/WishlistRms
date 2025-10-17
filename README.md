@@ -144,6 +144,21 @@ Exemplo: Adicionar produto à wishlist
 ![img.png](img.png)
 
 
+## Diagrama de Classes
+![img_1.png](img_1.png)
+
+## Diagrama de Atividades (inclusão de produto)
+![img_4.png](img_4.png)
+
+## Diagrama de Atividades (remoção de produto)
+![img_5.png](img_5.png)
+
+## Diagrama de Atividades (Listar todos itens da Wishlist do cliente)
+![img_6.png](img_6.png)
+
+## Diagrama de Atividades (Verificar produto na Wishlist)
+![img_7.png](img_7.png)
+
 ## Testes
 
 Para rodar os testes automatizados (JUnit e Cucumber):
