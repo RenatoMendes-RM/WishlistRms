@@ -130,57 +130,18 @@ src/
 
 O projeto segue uma arquitetura inspirada na Clean Architecture, separando responsabilidades em camadas:
 
-mermaid
-```
-flowchart TD
-  subgraph Interface/API
-    A[WishlistController]
-  end
-  subgraph Application
-    B[WishlistService]
-  end
-  subgraph Domain
-    C[Wishlist Entidade]
-  end
-  subgraph Infrastructure
-    D[WishlistRepositoryMongoImpl]
-    E[WishlistDocument]
-    F[MongoDB]
-  end
 
-  A --> B
-  B --> C
-  B --> D
-  D --> E
-  E --> F
-```
 ![img_2.png](img_2.png)
 
 ## Fluxo de Funcionamento
 
 Exemplo: Adicionar produto à wishlist
 
-
-```
-sequenceDiagram
-  participant Cliente
-  participant Controller as WishlistController
-  participant Service as WishlistService
-  participant Repository as WishlistRepositoryMongoImpl
-  participant MongoDB
-
-  Cliente->>Controller: POST /wishlists/{customerId}/products/{productId}
-  Controller->>Service: addProduct(customerId, productId)
-  Service->>Repository: save(wishlist)
-  Repository->>MongoDB: Persistir documento
-  MongoDB-->>Repository: Confirmação de persistência
-  Repository-->>Service: Wishlist salva
-  Service-->>Controller: Wishlist criada/atualizada
-  Controller-->>Cliente: HTTP 201 Created/200 OK
-```
-
-
 ![img_3.png](img_3.png)
+
+
+## Diagrama de componentes
+![img.png](img.png)
 
 
 ## Testes

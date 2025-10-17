@@ -4,6 +4,7 @@ package org.projeto.infrastructure.repositories;
 import org.projeto.domain.entities.Wishlist;
 import org.projeto.domain.repositories.WishlistRepository;
 import org.projeto.infrastructure.persistence.WishlistDocument;
+import org.projeto.infrastructure.persistence.WishlistMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -12,9 +13,11 @@ import java.util.Optional;
 public class WishlistRepositoryMongoImpl implements WishlistRepository {
 
     private final WishlistMongoSpringData mongoRepo;
+    private final WishlistMapper wishlistMapper;
 
-    public WishlistRepositoryMongoImpl(WishlistMongoSpringData mongoRepo) {
+    public WishlistRepositoryMongoImpl(WishlistMongoSpringData mongoRepo, WishlistMapper wishlistMapper) {
         this.mongoRepo = mongoRepo;
+        this.wishlistMapper = wishlistMapper;
     }
 
     @Override
@@ -25,12 +28,12 @@ public class WishlistRepositoryMongoImpl implements WishlistRepository {
     @Override
     public Optional<Wishlist> findByCustomerId(String customerId) {
         return mongoRepo.findByCustomerId(customerId)
-                .map(WishlistDocument::toDomain);
+                .map(wishlistMapper::toDomain);
     }
 
     @Override
     public void save(Wishlist wishlist) {
-        WishlistDocument doc = WishlistDocument.fromDomain(wishlist);
-        WishlistDocument saved = mongoRepo.save(doc);
+        WishlistDocument doc = wishlistMapper.toDocument(wishlist);
+        mongoRepo.save(doc);
     }
 }

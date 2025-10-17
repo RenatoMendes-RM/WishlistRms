@@ -35,22 +35,16 @@ public class WishlistDocument {
         return productIds;
     }
 
-
-    public static WishlistDocument fromDomain(Wishlist wishlist) {
-        return new WishlistDocument(
-                wishlist.getId(),
-                wishlist.getCustomerId(),
-                wishlist.getProductIds()
-        );
+    public void setId(String id) {
+        this.id = id;
     }
 
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
+    }
 
-    public Wishlist toDomain() {
-        return new Wishlist(
-                this.getId(),
-                this.getCustomerId(),
-                this.getProductIds()
-        );
+    public void setProductIds(Set<String> productIds) {
+        this.productIds = productIds;
     }
 
 }

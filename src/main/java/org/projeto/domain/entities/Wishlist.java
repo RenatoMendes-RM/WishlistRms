@@ -8,6 +8,9 @@ public class Wishlist {
     private String customerId;
     private Set<String> productIds = new HashSet<>();
 
+    public Wishlist() {
+    }
+
     public Wishlist(String id, String customerId, Set<String> productIds) {
         this.id = id;
         this.customerId = customerId;
@@ -24,5 +27,17 @@ public class Wishlist {
 
     public Set<String> getProductIds() {
         return productIds;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
+    }
+
+    public void setProductIds(Set<String> productIds) {
+        this.productIds = productIds;
     }
 }
