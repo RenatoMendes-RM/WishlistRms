@@ -7,5 +7,6 @@ import java.util.Optional;
 
 public interface WishlistMongoSpringData extends MongoRepository<WishlistDocument, String> {
     void deleteByCustomerId(String customerId);
+
     Optional<WishlistDocument> findByCustomerId(String customerId);
 }

@@ -9,5 +9,6 @@ public interface WishlistMapper {
     WishlistMapper INSTANCE = Mappers.getMapper(WishlistMapper.class);
 
     WishlistDocument toDocument(Wishlist wishlist);
+
     Wishlist toDomain(WishlistDocument document);
 }

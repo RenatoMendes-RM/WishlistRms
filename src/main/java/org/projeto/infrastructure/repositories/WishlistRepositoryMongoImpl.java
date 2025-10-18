@@ -1,6 +1,5 @@
 package org.projeto.infrastructure.repositories;
 
-
 import org.projeto.domain.entities.Wishlist;
 import org.projeto.domain.repositories.WishlistRepository;
 import org.projeto.infrastructure.persistence.WishlistDocument;

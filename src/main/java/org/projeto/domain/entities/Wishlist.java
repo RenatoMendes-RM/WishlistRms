@@ -21,20 +21,20 @@ public class Wishlist {
         return id;
     }
 
-    public String getCustomerId() {
-        return customerId;
-    }
-
-    public Set<String> getProductIds() {
-        return productIds;
-    }
-
     public void setId(String id) {
         this.id = id;
     }
 
+    public String getCustomerId() {
+        return customerId;
+    }
+
     public void setCustomerId(String customerId) {
         this.customerId = customerId;
+    }
+
+    public Set<String> getProductIds() {
+        return productIds;
     }
 
     public void setProductIds(Set<String> productIds) {
