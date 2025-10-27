@@ -148,7 +148,7 @@ Exemplo: Adicionar produto à wishlist
 ![img_1.png](img_1.png)
 
 ## Diagrama de Atividades (inclusão de produto)
-![img_4.png](img_4.png)
+![img_8.png](img_8.png)
 
 ## Diagrama de Atividades (remoção de produto)
 ![img_5.png](img_5.png)

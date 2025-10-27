@@ -1,6 +1,7 @@
 package org.projeto.application.services;
 
 import org.projeto.domain.entities.Wishlist;
+import org.projeto.application.config.WishlistProperties;
 import org.projeto.domain.exceptions.BusinessException;
 import org.projeto.domain.exceptions.NotFoundException;
 import org.projeto.domain.repositories.WishlistRepository;
@@ -13,19 +14,20 @@ import java.util.Set;
 
 @Service
 public class WishlistService {
-    private static final int MAX_PRODUCTS = 20;
 
     private final WishlistRepository wishlistRepository;
+    private final WishlistProperties wishlistProperties;
 
-    public WishlistService(WishlistRepository wishlistRepository) {
+    public WishlistService(WishlistRepository wishlistRepository, WishlistProperties wishlistProperties) {
         this.wishlistRepository = wishlistRepository;
+        this.wishlistProperties = wishlistProperties;
     }
 
     public void addProduct(String customerId, String productId) {
         Wishlist wishlist = wishlistRepository.findByCustomerId(customerId)
                 .orElse(new Wishlist(null, customerId, new HashSet<>()));
 
-        if (wishlist.getProductIds().size() >= MAX_PRODUCTS) {
+        if (wishlist.getProductIds().size() >= wishlistProperties.getMaxProducts()) {
             throw new BusinessException("Wishlist limit reached");
         }
         if (wishlist.getProductIds().contains(productId)) {

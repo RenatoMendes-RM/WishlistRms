@@ -2,6 +2,7 @@ package org.projeto.application.services;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.projeto.application.config.WishlistProperties;
 import org.projeto.domain.entities.Wishlist;
 import org.projeto.domain.exceptions.BusinessException;
 import org.projeto.domain.exceptions.NotFoundException;
@@ -26,11 +27,13 @@ class WishlistServiceTest {
 
     private WishlistRepository wishlistRepository;
     private WishlistService wishlistService;
+    private WishlistProperties wishlistProperties;
 
     @BeforeEach
     void setUp() {
         wishlistRepository = mock(WishlistRepository.class);
-        wishlistService = new WishlistService(wishlistRepository);
+        wishlistProperties = new WishlistProperties();
+        wishlistService = new WishlistService(wishlistRepository, wishlistProperties);
     }
 
     @Test
